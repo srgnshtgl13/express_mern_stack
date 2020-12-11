@@ -1,0 +1,4 @@
+"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+
+we set the NPM_CONFIG_PRODUCTION=false, because if it is in production(NPM_CONFIG_PRODUCTION=true) it will not build.
+Once it was built NPM_CONFIG_PRODUCTION will be true again
