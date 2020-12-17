@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Button,
   Modal,
@@ -9,20 +10,37 @@ import {
   FormGroup,
   Label,
   Input,
+  Alert,
 } from "reactstrap";
 import { addItem } from "../../actions/itemActions";
+import { clearErrors } from "../../actions/errorActions";
 import PropTypes from "prop-types";
 
 const ItemModal = (props) => {
   const dispatch = useDispatch();
+  const errorState = useSelector((state) => state.error);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [name, setName] = useState("");
-  const _toggleModal = () => setModalOpen(!modalOpen);
+  const [msg, setMsg] = useState("");
+
+  const _toggleModal = () => {
+    dispatch(clearErrors());
+    setModalOpen(!modalOpen);
+  };
+
   const _formSubmit = (e) => {
     e.preventDefault();
     dispatch(addItem({ name }));
-    _toggleModal();
+    // _toggleModal();
   };
+
+  useEffect(() => {
+    if (errorState.msg) {
+      setMsg(errorState.msg.msg);
+    }
+  }, [errorState]);
+
   const _onChange = (e) => setName(e.target.value);
   return (
     <div>
@@ -38,10 +56,13 @@ const ItemModal = (props) => {
           Add Item To Shopping List
         </ModalHeader>
         <ModalBody>
+          {msg ? (
+            <Alert color="danger">{msg}</Alert>
+          ) : null}
           <Form onSubmit={_formSubmit}>
             <FormGroup>
               <Label for="item">Name</Label>
-              <Input id="item" type="text" name="name" onChange={_onChange} />
+              <Input id="item" type="text" name="name" onChange={_onChange} value={name} />
             </FormGroup>
             <Button type="submit" block>
               Add

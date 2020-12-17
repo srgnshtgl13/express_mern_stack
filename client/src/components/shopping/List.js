@@ -21,7 +21,7 @@ const ShoppingList = (props) => {
 
   return (
     <Container>
-      <ItemModal />
+      <ItemModal items={itemState.items} />
       <ListGroup>
         {itemState.loading && <p>Loading...</p>}
         <TransitionGroup>

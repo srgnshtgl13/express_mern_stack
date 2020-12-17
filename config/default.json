@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb://srgn:password@localhost:27017/admin",
+    "jwtSecret": "my_jwt_SeCr€t"
+}
