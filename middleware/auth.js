@@ -23,10 +23,9 @@ module.exports = auth;
 function auth(req, res, next) {
   const header = req.headers["authorization"];
   if(!header) res.status(401).json({ msg: "Unauthorized!" });
-  const token = header.split(" ")[1];
-  const bearer = header.split(" ")[0];
-  // check for token
-  if (!token || !bearer || bearer !== 'Bearer') return res.status(401).json({ msg: "Unauthorized!" });
+  
+  const token = header.split("Bearer ")[1];
+  if (!token) return res.status(401).json({ msg: "Unauthorized!" });
 
   // verify token
   try {
